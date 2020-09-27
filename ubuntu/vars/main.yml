@@ -1,0 +1,93 @@
+---
+# vars file for ubuntu
+
+apt_repositories:
+  - ppa:jonathonf/vim
+
+apt_packages:
+  - name: byacc
+    state: latest
+  - name: bison
+    state: latest
+  - name: libncurses5-dev
+    state: latest
+  - name: automake
+    state: latest
+  - name: autoconf
+    state: latest
+  - name: libevent-dev
+    state: latest
+  - name: pkg-config
+    state: latest
+  - name: build-essential
+    state: latest
+  - name: tree
+    state: latest
+  - name: git-lfs
+    state: latest
+  - name: python3
+    state: latest
+  - name: wget
+    state: latest
+  - name: iperf
+    state: latest
+  - name: git
+    state: latest
+  - name: vim-gtk-py2
+    state: latest
+  - name: clang-format-8
+    state: latest
+  - name: python-pip
+    state: latest
+  - name: exuberant-ctags
+    state: latest
+  - name: flameshot
+    state: latest
+  - name: checkinstall
+    state: latest
+  - name: i3
+    state: latest
+  - name: i3-wm
+    state: latest
+  - name: i3blocks
+    state: latest
+  - name: rofi
+    state: latest
+
+pip_packages:
+  - name: flake8
+  - name: cpplint
+
+git_configurations:
+  - name: user.name
+    value: Hirofumi Watanabe
+    scope: global
+  - name: merge.tool
+    value: vimdiff
+    scope: global
+  - name: core.editor
+    value: vim -c \"set fenc=utf-8\"
+    scope: global
+
+dev_directories:
+  - name: Create workspace directory
+    path: ~/workspace
+    state: directory
+
+git_repos:
+  - repo: https://github.com/h-wata/dotfiles.git
+    dest: ~/workspace/dotfiles
+  - repo: https://github.com/tmux/tmux.git
+    dest: /tmp/tmux
+  - repo: https://github.com/junegunn/fzf.git
+    dest: ~/.fzf
+
+deb_files:
+  - url: https://github.com/sharkdp/fd/releases/download/v7.4.0/fd-musl_7.4.0_amd64.deb 
+    dest: /tmp/fd.deb
+    checksum: sha256:7b9ba058cde1d792adc0c78b11f63955e4d6ce3090ed86c9b224294e1baeb4d7
+    name: fd
+  - url: https://github.com/sharkdp/bat/releases/download/v0.12.1/bat-musl_0.12.1_amd64.deb 
+    dest: /tmp/bat.deb
+    checksum: sha256:8f0791fac6ae36e9c83f9312dd4827fd096aa97892403befbbcb32b1f1c80ec7
+    name: bat
