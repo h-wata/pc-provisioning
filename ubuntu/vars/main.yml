@@ -3,11 +3,14 @@
 
 apt_repositories:
   - ppa:jonathonf/vim
+  - ppa:git-core/ppa
 
 apt_packages:
   - name: byacc
     state: latest
   - name: bison
+    state: latest
+  - name: ccache
     state: latest
   - name: libncurses5-dev
     state: latest
@@ -53,6 +56,8 @@ apt_packages:
     state: latest
   - name: rofi
     state: latest
+  - name: fonts-font-awesome
+    state: latest
 
 pip_packages:
   - name: flake8
@@ -91,3 +96,7 @@ deb_files:
     dest: /tmp/bat.deb
     checksum: sha256:8f0791fac6ae36e9c83f9312dd4827fd096aa97892403befbbcb32b1f1c80ec7
     name: bat
+  - url: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+    dest: /tmp/google-chrome.deb
+    checksum: sha256:1fbead737a5f46086b0e5736333516257bc23702f4ff686ac48c6580daec3a9e
+    name: google-chrome-stable

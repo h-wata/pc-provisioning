@@ -102,7 +102,7 @@
 # tmux setup
 - name: Configure tmux
   shell:
-    cmd: cd /tmp/tmux; bash ./autogen.sh; bash ./configure --prefix=/usr/local; make 
+    cmd: cd /tmp/tmux; bash ./autogen.sh; bash ./configure --prefix=/usr/local; /usr/bin/make 
   when: tmux_installed.rc == 1
 
 - name: Install tmux 
@@ -114,7 +114,7 @@
  # fzf setup
 - name: Install fzf
   shell:
-    cmd: yes |~/.fzf/install
+    cmd: yes | /usr/bin/bash ~/.fzf/install
   when: fzf_installed.rc == 1
 # Install deb files and install softfware
 
@@ -138,4 +138,4 @@
  # dotfiles setup
 - name: Setup dotfiles
   shell:
-    cmd: cd ~/workspace/dotfiles; bash setup.sh
+    cmd: cd ~/workspace/dotfiles; /usr/bin/bash setup.sh
