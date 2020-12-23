@@ -63,20 +63,23 @@ pip_packages:
   - name: flake8
   - name: cpplint
 
-git_configurations:
-  - name: user.name
-    value: Hirofumi Watanabe
-    scope: global
-  - name: merge.tool
-    value: vimdiff
-    scope: global
-  - name: core.editor
-    value: vim -c \"set fenc=utf-8\"
-    scope: global
+# git_configurations:
+#   - name: user.name
+#     value: Hirofumi Watanabe
+#     scope: global
+#   - name: merge.tool
+#     value: vimdiff
+#     scope: global
+#   - name: core.editor
+#     value: vim -c \"set fenc=utf-8\"
+#     scope: global
 
 dev_directories:
   - name: Create workspace directory
     path: ~/workspace
+    state: directory
+  - name: Create work directory
+    path: ~/work
     state: directory
 
 git_repos:
@@ -86,6 +89,8 @@ git_repos:
     dest: /tmp/tmux
   - repo: https://github.com/junegunn/fzf.git
     dest: ~/.fzf
+  - repo: https://github.com/h-wata/i3blocks-contrib.git
+    dest: ~/work/i3blocks-contrib
 
 deb_files:
   - url: https://github.com/sharkdp/fd/releases/download/v7.4.0/fd-musl_7.4.0_amd64.deb 
