@@ -66,6 +66,10 @@ apt_packages:
     state: latest
   - name: xsel
     state: latest
+  - name: trash-cli
+    state: latest
+  - name: gconf2
+    state: latest
 
 pip_packages:
   - name: flake8
@@ -100,4 +104,4 @@ git_repos:
   - repo: https://github.com/h-wata/i3blocks-contrib.git
     dest: ~/work/i3blocks-contrib
 
-deb_files:
+# deb_files:

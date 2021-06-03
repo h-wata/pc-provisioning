@@ -1,24 +1,19 @@
 ---
 # tasks file for ubuntu
 
-# Checkf directory
+# Check directory
 - name: Check the git directory status
   stat:
     path: "{{ item.dest }}"
   with_items: "{{ git_repos }}"
   register: git_repos_directory
     
-- name: debug var git_repos_directory
-  debug:
-    msg: "{{ item.stat }}"
-  with_items: "{{ git_repos_directory.results }}"
-
 - name: Check the ssh status
   stat:
     path: "~/.ssh/id_rsa"
   register: id_rsa_file
 
-# Checkf software install
+# Check software install
 - name: Check the tmux install
   shell: /usr/local/bin/tmux -V
   register: tmux_installed
@@ -26,23 +21,22 @@
   changed_when: no
   # https://qiita.com/ngyuki/items/69c33065f7daa0cd571d
 
-- name: Check the tmux install
+- name: Check the fzf install
   shell: ~/.fzf/bin/fzf --version
   register: fzf_installed
   failed_when: no
   changed_when: no
 
-- name: Check if deb_package is installed
-  command: dpkg-query -W  "{{ item.name }}"
-  register: deb_package_check
-  failed_when: no
-  changed_when: no
-  with_items: "{{ deb_files }}"
+# - name: Check if deb_package is installed
+#   command: dpkg-query -W  "{{ item.name }}"
+#   register: deb_package_check
+#   failed_when: no
+#   changed_when: no
+#   with_items: "{{ deb_files }}"
 
 - name: debug var deb_package_check
   debug:
-    msg: "{{ deb_package_check.results }}" # "{{ item.stat }}"
-  # with_items: "{{ deb_package_check.results }}"
+    msg: "{{ fzf_installed.rc }}" # "{{ item.stat }}"
 
   # apt install
 - name: Add apt repository
@@ -58,20 +52,6 @@
   with_items: "{{ apt_packages }}"
   become: yes
 
-# - name: Configure git_config
-#   git_config:
-#     name: "{{ item.name }}"
-#     value: "{{ item.value }}"
-#     scope: "{{ item.scope }}"
-#   with_items: "{{ git_configurations }}"
-
-# pip install
-# - name: Install pip software
-#   pip:
-#     name: "{{ item.name }}"
-#     extra_args: --user
-#   with_items: "{{ pip_packages }}"
-
 - name: Create directory for local development
   file:
     path: "{{ item.path }}"
@@ -82,58 +62,44 @@
   git:
     repo: "{{ item.item.repo }}"
     dest: "{{ item.item.dest }}"
-    clone: yes
     track_submodules: yes
-  when:
-    - not item.stat.exists
-  with_items: "{{ git_repos_directory.results }}"
-
-- name: Update git repository
-  git:
-    repo: "{{ item.item.repo }}"
-    dest: "{{ item.item.dest }}"
-    clone: no
-    track_submodules: yes
-    update: yes
-  when:
-    - item.stat.exists
   with_items: "{{ git_repos_directory.results }}"
 
 # tmux setup
 - name: Configure tmux
   shell:
     cmd: cd /tmp/tmux; bash ./autogen.sh; bash ./configure --prefix=/usr/local; /usr/bin/make 
-  when: tmux_installed.rc == 1
+  when: tmux_installed.rc != 0
 
 - name: Install tmux 
   shell:
     cmd: cd /tmp/tmux; /usr/bin/checkinstall -y
   become: yes
-  when: tmux_installed.rc == 1
+  when: tmux_installed.rc != 0
 
  # fzf setup
 - name: Install fzf
   shell:
     cmd: yes | /usr/bin/bash ~/.fzf/install
-  when: fzf_installed.rc == 1
+  when: fzf_installed.rc != 0
 # Install deb files and install softfware
 
-- name: Download deb files
-  get_url:
-    url: "{{ item.item.url }}"
-    dest: "{{ item.item.dest }}"
-    checksum: "{{ item.item.checksum }}"
-    force: yes
-  when: item.rc == 1
-  with_items: "{{ deb_package_check.results }}"
+# - name: Download deb files
+#   get_url:
+#     url: "{{ item.item.url }}"
+#     dest: "{{ item.item.dest }}"
+#     checksum: "{{ item.item.checksum }}"
+#     force: yes
+#   when: item.rc == 1
+#   with_items: "{{ deb_package_check.results }}"
     # https://protocol.nekono.tokyo/2019/11/01/ansible%E3%81%A7%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%82%92%E5%8F%96%E5%BE%97%E3%81%99%E3%82%8B%E9%9A%9B%E3%81%AB%E3%83%81%E3%82%A7%E3%83%83%E3%82%AF%E3%82%B5%E3%83%A0%E3%81%A7%E7%A2%BA%E8%AA%8D/
     # https://qiita.com/hnakamur/items/8b8870c640205d438826
-- name: Install deb files
-  apt:
-    deb: "{{ item.item.dest }}"
-  become: yes
-  when: item.rc == 1
-  with_items: "{{ deb_package_check.results }}"
+# - name: Install deb files
+#   apt:
+#     deb: "{{ item.item.dest }}"
+#   become: yes
+#   when: item.rc == 1
+#   with_items: "{{ deb_package_check.results }}"
 
  # dotfiles setup
 - name: Setup dotfiles
