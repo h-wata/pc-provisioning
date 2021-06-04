@@ -1,0 +1,45 @@
+---
+# Check software install
+- name: Check the tmux install
+  shell: /usr/local/bin/tmux -V
+  register: tmux_installed
+  failed_when: no
+  changed_when: no
+  # https://qiita.com/ngyuki/items/69c33065f7daa0cd571d
+
+- name: Check the fzf install
+  shell: ~/.fzf/bin/fzf --version
+  register: fzf_installed
+  failed_when: no
+  changed_when: no
+
+
+- name: debug var deb_package_check
+  debug:
+    msg: "{{ fzf_installed.rc }}" # "{{ item.stat }}"
+
+- name: Clone git repository
+  git:
+    repo: "{{ item.item.repo }}"
+    dest: "{{ item.item.dest }}"
+    track_submodules: yes
+    force: yes
+  with_items: "{{ git_repos_directory.results }}"
+
+# tmux setup
+- name: Configure tmux
+  shell:
+    cmd: cd /tmp/tmux; bash ./autogen.sh; bash ./configure --prefix=/usr/local; /usr/bin/make 
+  when: tmux_installed.rc != 0
+
+- name: Install tmux 
+  shell:
+    cmd: cd /tmp/tmux; /usr/bin/checkinstall -y
+  become: yes
+  when: tmux_installed.rc != 0
+
+ # fzf setup
+- name: Install fzf
+  shell:
+    cmd: yes | bash ~/.fzf/install
+  when: fzf_installed.rc != 0

@@ -8,7 +8,7 @@ apt_repositories:
 apt_packages:
   - name: ansible
     state: latest
-  - name: autoconf
+  - name: autoconf 
     state: latest
   - name: build-essential
     state: latest
@@ -67,8 +67,6 @@ apt_packages:
   - name: xsel
     state: latest
   - name: trash-cli
-    state: latest
-  - name: gconf2
     state: latest
 
 pip_packages:
