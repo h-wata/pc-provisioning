@@ -95,11 +95,15 @@ dev_directories:
 git_repos:
   - repo: https://github.com/h-wata/dotfiles.git
     dest: ~/workspace/dotfiles
+    version: master
   - repo: https://github.com/tmux/tmux.git
     dest: /tmp/tmux
+    version: 3.2
   - repo: https://github.com/junegunn/fzf.git
     dest: ~/.fzf
-  - repo: https://github.com/h-wata/i3blocks-contrib.git
+    version: master
+  - repo: https://github.com/vivien/i3blocks-contrib.git
     dest: ~/work/i3blocks-contrib
+    version: master
 
 # deb_files:

@@ -22,6 +22,7 @@
   git:
     repo: "{{ item.item.repo }}"
     dest: "{{ item.item.dest }}"
+    version: "{{ item.item.version }}"
     track_submodules: yes
     force: yes
   with_items: "{{ git_repos_directory.results }}"
@@ -34,7 +35,7 @@
 
 - name: Install tmux 
   shell:
-    cmd: cd /tmp/tmux; /usr/bin/checkinstall -y
+    cmd: cd /tmp/tmux; /usr/bin/checkinstall -y --pkgname='tmux' --version='3.3'
   become: yes
   when: tmux_installed.rc != 0
 
