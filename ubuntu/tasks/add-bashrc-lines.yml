@@ -56,4 +56,7 @@
           PS1="${TITLEBAR}${GREEN}${BASE}${WHITE}:${BLUE}\w${RED}\$(parse_git_branch)${BLUE}\$${WHITE} \n"
       }
       promps
+      export FZF_DEFAULT_OPTS='--height 40% --reverse --border'
+      export FZF_CTRL_T_COMMAND='fd -t f --hidden --follow -d 5 -E .git'
+      export FZF_CTRL_T_OPTS='--preview \"bat  --color=always --style=header,grid --line-range :100 {}\"'
       #----

@@ -4,6 +4,7 @@
 apt_repositories:
   - ppa:jonathonf/vim
   - ppa:git-core/ppa
+  - ppa:russell-s-stewart/ppa
 
 apt_packages:
   - name: ansible
@@ -60,7 +61,7 @@ apt_packages:
     state: latest
   - name: python-pip
     state: latest
-  - name: vim-gtk-py2
+  - name: vim
     state: latest
   - name: wget
     state: latest
@@ -68,8 +69,11 @@ apt_packages:
     state: latest
   - name: trash-cli
     state: latest
+  - name: sshrc
+    state: latest
 
 pip_packages:
+  - name: autopep8
   - name: flake8
   - name: cpplint
 
@@ -85,11 +89,15 @@ pip_packages:
 #     scope: global
 
 dev_directories:
-  - name: Create workspace directory
-    path: ~/workspace
+  - path: ~/workspace
     state: directory
-  - name: Create work directory
-    path: ~/work
+  - path: ~/work
+    state: directory
+  - path: ~/.vim
+    state: directory
+  - path: ~/.config/i3
+    state: directory
+  - path: ~/Document/git
     state: directory
 
 git_repos:
